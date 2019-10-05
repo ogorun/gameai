@@ -12,17 +12,20 @@ class Game:
     def set_debug(self, debug):
         self.debug = debug
 
+    def move(self, state):
+        self.state = state
+        if self.debug:
+            self.picture()
+        self.is_first_agent_turn = not self.is_first_agent_turn
+        self.moves_num += 1
+
     def play(self):
         if self.debug:
             self.picture()
         while not self.is_final_state() and (self.moves_limit is None or self.moves_num > self.moves_limit):
-            self.moves_num += 1
-            self.state = self.agents[int(not self.is_first_agent_turn)].move(self)
-            if self.debug:
-                self.picture()
-            self.is_first_agent_turn = not self.is_first_agent_turn
+            self.move(self.agents[int(not self.is_first_agent_turn)].move(self))
 
-        winner = self.evaluate_itself()
+        winner = self.evaluate()
         for agent in self.agents:
             if agent.label == winner:
                 agent.win()
@@ -34,12 +37,8 @@ class Game:
     def is_final_state(self):
         pass
 
-    @classmethod
-    def evaluate(cls, state, turn):
-        return None
-
-    def evaluate_itself(self):
-        return self.evaluate(self.state, self.agents[int(not self.is_first_agent_turn)].label)
+    def evaluate(self):
+        return self.__evaluate(self.state, self.agents[int(not self.is_first_agent_turn)].label)
 
     def draw(self):
         pass

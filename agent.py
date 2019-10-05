@@ -6,7 +6,7 @@ class Agent:
     def __init__(self, label):
         self.label = label
 
-    def move(self, game: Game):
+    def move(self, game):
         pass
 
     def win(self):

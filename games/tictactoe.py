@@ -30,16 +30,18 @@ class TicTacToe(Game):
         return agents, state, is_first_agent_turn
 
     def is_final_state(self):
-        return (self.evaluate_itself() is not None)
+        return (self.evaluate() is not None)
 
-    @classmethod
-    def evaluate(cls, state, turn):
+    def evaluate(self):
+        return self.__evaluate(self.state, self.agents[int(not self.is_first_agent_turn)].label)
+
+    def __evaluate(self, state, turn):
         lines = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
         for line in lines:
             if state[line[0]] == state[line[1]] == state[line[2]]:
                 return state[line[0]]
 
-        not_filled = cls.__find_not_filled(state)
+        not_filled = self.__find_not_filled(state)
         if len(not_filled) == 0:
             return 'draw'
 
