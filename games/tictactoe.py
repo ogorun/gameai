@@ -53,7 +53,7 @@ class TicTacToe(Game):
             str = ''
             for col in range(0,3):
                 index = row*3+col
-                str += ' ' if type(self.state[index]) == int else self.state[index]
+                str += '-' if type(self.state[index]) == int else self.state[index]
             print(str)
         print('===')
 
