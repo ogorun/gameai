@@ -6,7 +6,8 @@ from games.tictactoe import TicTacToe
 from tqdm import tqdm
 
 
-player_X = RandomAgent('X')
+#player_X = RandomAgent('X')
+player_X = MinimaxWithAlphaBeta('X')
 player_O = MinimaxWithAlphaBeta('O')
 
 results = {'X': 0, 'O': 0, 'draw': 0}
