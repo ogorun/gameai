@@ -1,3 +1,10 @@
+# Divide stack into stacks of 2 and 1 - http://www.cs.cmu.edu/afs/cs.cmu.edu/academic/class/15381-s06/www/gamesI.pdf
+# Isola - https://www.freecodecamp.org/news/playing-strategy-games-with-minimax-4ecb83b39b4b/
+# Mancala
+# checkers
+# reversi
+# Connect Four
+# chess
 class Game:
 
     def __init__(self, agents, state=None, is_first_agent_turn=None, moves_limit=None):
