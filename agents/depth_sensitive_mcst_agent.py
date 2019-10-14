@@ -2,6 +2,7 @@ from agent import Agent
 from game import Game
 from agents.random_agent import RandomAgent
 import math, copy
+import gc
 
 class MCSTTreeNode:
 
@@ -19,6 +20,14 @@ class MCSTTreeNode:
     def is_leaf(self):
         return len(self.children) == 0
 
+    def depth(self):
+        result = 0
+        node = self
+        while node.parent is not None:
+            result += 1
+            node = node.parent
+        return result
+
     def to_str(self):
         return f"(({self.s}, {self.n}, {[child.to_str() for child in self.children]}))"
 
@@ -26,7 +35,7 @@ class MCSTTreeNode:
         print(self.to_str())
 
 
-class MCSTAgent(Agent):
+class DepthSensitiveMCSTAgent(Agent):
 
     def __init__(self, label, UCB1_const, trials_num, states_limit = 3):
         super().__init__(label)
@@ -36,6 +45,10 @@ class MCSTAgent(Agent):
         self.e = 0.000001
 
     def move(self, game):
+        if hasattr(self, 'tree'):
+            del self.tree
+            gc.collect()
+
         self.tree = MCSTTreeNode(game)
 
         for trial in range(self.trials_num):
@@ -75,20 +88,20 @@ class MCSTAgent(Agent):
         tmp_game.agents = tmp_agents
         tmp_game.play()
         winner = tmp_game.evaluate()
-        return self.winner2score(winner)
+        return self.winner2score(winner, tmp_game.moves_num)
 
-    def winner2score(self, winner):
+    def winner2score(self, winner, moves_num):
         if winner == self.label:
-            return 10
+            return 10-moves_num
         elif winner == 'draw':
             return 0
         else:
-            return -10
+            return -(10-moves_num)
 
     def backpropogate(self, node, score):
         current_node = node
         while current_node is not None:
-            current_node.n += 1
+            current_node.n += 10
             current_node.s += score
             current_node = current_node.parent
 

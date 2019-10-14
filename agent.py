@@ -2,12 +2,12 @@ from game import Game
 
 # AlphaGO - https://www.analyticsvidhya.com/blog/2019/01/monte-carlo-tree-search-introduction-algorithm-deepmind-alphago/
 # MCTS with enchancments:
-#    - fix bug
+#    - fix bug +
+#    - score according to depth +/-
 #    - don't rebuild tree from scratch on every move
 #    - strateies to choose: the bigest value/n, the biggest UCB!, the biggest N
 #    - exclude loosing move, allways choose winning one,
 #    - exclude move followed by loosing, allways choose move followed by winning,
-#    - score according to depth
 #    - score according to depth with depth limit
 #    - score according to depth with time limit
 #    - search (Google) on "real-time MCTS"
