@@ -2,28 +2,7 @@ from agent import Agent
 from game import Game
 from agents.random_agent import RandomAgent
 import math, copy
-
-class MCSTTreeNode:
-
-    def __init__(self, game: Game):
-        self.game = game
-        self.n = 0
-        self.s = 0
-        self.children = []
-        self.parent = None
-
-    def append(self, node):
-        self.children.append(node)
-        node.parent = self
-
-    def is_leaf(self):
-        return len(self.children) == 0
-
-    def to_str(self):
-        return f"(({self.s}, {self.n}, {[child.to_str() for child in self.children]}))"
-
-    def draw(self):
-        print(self.to_str())
+from agents.mcts_node import MCSTTreeNode
 
 
 class MCSTAgent(Agent):
@@ -42,9 +21,12 @@ class MCSTAgent(Agent):
             node = self.select()
             result = self.simulate(node)
             self.backpropogate(node, result)
+            if self.debug:
+                self.tree.draw(f"{self.label} - {game.moves_num} - {trial}")
 
         chosen_node = self.choose_best_child()
-        #self.tree.draw()
+        if self.debug:
+            print(self.tree.leafs_counter())
         return chosen_node.game.state
 
     def select(self):
@@ -57,7 +39,7 @@ class MCSTAgent(Agent):
                     new_states = node.game.get_possible_next_states(self.states_limit)
                     for state in new_states:
                         new_game = copy.deepcopy(node.game)
-                        new_game.set_debug(False)
+                        new_game.debug = False
                         new_game.move(state)
                         node.append(MCSTTreeNode(new_game))
                     return node.children[0]
@@ -70,7 +52,7 @@ class MCSTAgent(Agent):
 
     def simulate(self, node: MCSTTreeNode):
         tmp_game = copy.deepcopy(node.game)
-        tmp_game.set_debug(False)
+        tmp_game.debug = False
         tmp_agents = [RandomAgent(agent.label) for agent in tmp_game.agents]
         tmp_game.agents = tmp_agents
         tmp_game.play()

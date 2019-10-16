@@ -30,7 +30,7 @@ class MinimaxWithAlphaBeta(Agent):
             results = []
             for state in possible_moves:
                 game_clone = copy.deepcopy(game)
-                game_clone.set_debug(False)
+                game_clone.debug = False
                 game_clone.move(state)
                 result = self.__minimax(game_clone, depth + 1, alpha, beta, not is_my_turn)
                 results.append((game_clone, result[1]))

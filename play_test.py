@@ -9,13 +9,13 @@ from tqdm import tqdm
 import gc
 
 
-#player_X = RandomAgent('X')
+player_X = RandomAgent('X')
 #player_X = MinimaxWithAlphaBeta('X')
-player_X = DepthSensitiveMCSTAgent('X', 1.41, 10, 10)
+#player_X = DepthSensitiveMCSTAgent('X', 1.41, 10, 10)
 player_O = DepthSensitiveMCSTAgent('O', 1.41, 10, 10)
 
 results = {'X': 0, 'O': 0, 'draw': 0}
-for i in tqdm(range(100)):
+for i in tqdm(range(1)):
     ttt = TicTacToe([player_X, player_O])
     #ttt.set_debug(True)
     ttt.play()

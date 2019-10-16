@@ -6,7 +6,8 @@ import gc
 from agents.mcts_node import MCSTTreeNode
 
 
-class DepthSensitiveMCSTAgent(Agent):
+
+class SingleTreeDepthSensitiveMCSTAgent(Agent):
 
     def __init__(self, label, UCB1_const, trials_num, states_limit = 3):
         super().__init__(label)
@@ -16,11 +17,7 @@ class DepthSensitiveMCSTAgent(Agent):
         self.e = 0.000001
 
     def move(self, game):
-        if hasattr(self, 'tree'):
-            del self.tree
-            gc.collect()
-
-        self.tree = MCSTTreeNode(game)
+        self.reset_tree(game)
 
         for trial in range(self.trials_num):
             node = self.select()
@@ -30,6 +27,39 @@ class DepthSensitiveMCSTAgent(Agent):
         chosen_node = self.choose_best_child()
         #self.tree.draw()
         return chosen_node.game.state
+
+    def reset_tree(self, game):
+        node = None
+        if hasattr(self, 'tree'):
+            node = self.prune_and_find_node_with_game(self.tree, game)
+
+        if node is not None:
+            self.tree = node
+        else:
+            self.tree = MCSTTreeNode(game)
+
+        gc.collect()
+
+    def prune_and_find_node_with_game(self, node, game):
+        if node.game.state_hash() == game.state_hash():
+            return node
+
+        found_node = None
+        index = 0
+        while len(node.children) > index:
+            child = node.children[index]
+            found_node_tmp = self.prune_and_find_node_with_game(child, game)
+            if found_node_tmp is None or (index == 1 and found_node_tmp.depth() >= found_node.depth()):
+                node.children.pop(index)
+                del child
+            else:
+                if index == 1:
+                    child_to_delete = node.children.pop(0)
+                    del child_to_delete
+                found_node = found_node_tmp
+
+        return found_node
+
 
     def select(self):
         node = self.tree

@@ -9,9 +9,6 @@ class Game:
         self.moves_num = 0
         self.debug = False
 
-    def set_debug(self, debug):
-        self.debug = debug
-
     def move(self, state):
         self.state = state
         if self.debug:
@@ -48,3 +45,6 @@ class Game:
 
     def picture(self):
         pass
+
+    def state_hash(self):
+        return self.state
