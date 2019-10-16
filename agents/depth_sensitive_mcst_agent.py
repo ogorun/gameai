@@ -26,9 +26,12 @@ class DepthSensitiveMCSTAgent(Agent):
             node = self.select()
             result = self.simulate(node)
             self.backpropogate(node, result)
+            if self.debug:
+                self.tree.draw(f"{self.label} - {game.moves_num} - {trial}")
 
         chosen_node = self.choose_best_child()
-        #self.tree.draw()
+        if self.debug:
+            print(self.tree.leafs_counter())
         return chosen_node.game.state
 
     def select(self):

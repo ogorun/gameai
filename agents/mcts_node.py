@@ -76,3 +76,42 @@ class MCSTTreeNode:
             child.leafs_counter(counter)
 
         return counter
+
+    def prune_tree_with_node(self, node):
+        current_node = node
+        while current_node.parent is not  None:
+            parent = current_node.parent
+            index = 0
+            # Use loop with changing index to avoid delete within iteration
+            while len(parent.children) > index:
+                child = parent.children[index]
+                if child.id == current_node.id:
+                    index = 1
+                else:
+                    parent.delete_child_subtree(child)
+            current_node = parent
+
+    def delete_child_subtree(self, child):
+        # delete children
+        for grandchild in child.children:
+            child.delete_child_subtree(grandchild)
+
+        # delete from parent
+        for index in range(len(self.children)):
+            if self.children[index].id == child.id:
+                self.children.pop(index)
+                break
+
+        del child
+
+    def find_game_node(self, game):
+        if self.game.state_hash() == game.state_hash():
+            return self
+
+        found_node = None
+        for child in self.children:
+            found_node_tmp = child.find_game_node(game)
+            if found_node_tmp is not None and (found_node is None or found_node_tmp.depth() < found_node.depth()):
+                found_node = found_node_tmp
+
+        return found_node
