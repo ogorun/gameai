@@ -17,3 +17,6 @@ class Agent:
 
     def loose(self):
         pass
+
+    def new_game(self):
+        pass

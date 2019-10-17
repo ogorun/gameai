@@ -9,6 +9,9 @@ class Game:
         self.moves_num = 0
         self.debug = False
 
+        self.agents[0].new_game()
+        self.agents[1].new_game()
+
     def move(self, state):
         self.state = state
         if self.debug:

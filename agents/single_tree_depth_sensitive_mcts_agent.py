@@ -9,12 +9,19 @@ from agents.mcts_node import MCSTTreeNode
 
 class SingleTreeDepthSensitiveMCSTAgent(Agent):
 
-    def __init__(self, label, UCB1_const, trials_num, states_limit = 3):
+    def __init__(self, label, UCB1_const=1.41, trials_num=100, states_limit = 3):
         super().__init__(label)
         self.trials_num = trials_num
         self.states_limit = states_limit
         self.UCB_C = UCB1_const
         self.e = 0.000001
+
+    def new_game(self):
+        if hasattr(self, 'chosen_node'):
+            del self.chosen_node
+        if hasattr(self, 'tree'):
+            self.tree.delete_child_subtree(self.tree)
+            del self.tree
 
     def move(self, game: Game):
         self.reset_tree(game)
@@ -39,7 +46,7 @@ class SingleTreeDepthSensitiveMCSTAgent(Agent):
             if node is None:
                 node = MCSTTreeNode(copy.deepcopy(game))
                 self.chosen_node.append(node)
-            else:
+            elif self.debug:
                 print('found!!!!!!', len(node.children))
             self.tree.prune_tree_with_node(node)
             self.tree.draw('prunned')

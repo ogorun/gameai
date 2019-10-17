@@ -2,6 +2,7 @@ from game import Game
 
 
 class TicTacToe(Game):
+    LABELS = ['X', 'O']
 
     def __init__(self, agents, state=None, is_first_agent_turn=None):
         agents, state, turn = self.__validate_initialization(agents, state, is_first_agent_turn)

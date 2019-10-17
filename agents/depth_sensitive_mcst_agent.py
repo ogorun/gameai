@@ -8,7 +8,7 @@ from agents.mcts_node import MCSTTreeNode
 
 class DepthSensitiveMCSTAgent(Agent):
 
-    def __init__(self, label, UCB1_const, trials_num, states_limit = 3):
+    def __init__(self, label, UCB1_const=1.41, trials_num=100, states_limit = 3):
         super().__init__(label)
         self.trials_num = trials_num
         self.states_limit = states_limit

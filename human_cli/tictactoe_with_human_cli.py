@@ -1,9 +1,8 @@
-from agents.minimax_with_alpha_beta import MinimaxWithAlphaBeta
-from agents.human_tictactoe_cli_agent import HumanTicTacToeCliAgent
-from agents.mcst_agent import MCSTAgent
-from agents.depth_sensitive_mcst_agent import DepthSensitiveMCSTAgent
-from games.tictactoe import TicTacToe
-from agents.single_tree_depth_sensitive_mcts_agent import SingleTreeDepthSensitiveMCSTAgent
+from game import Game
+from games import *
+from agent import Agent
+from agents import *
+
 
 order = int(input('You play with O. Choose order: (1/2)?'))
 
