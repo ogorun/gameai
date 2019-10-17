@@ -1,23 +1,57 @@
 class Game:
     """
-    A class used to represent a Game. The following restrictions are supposed:
+    A base class used to represent a Game.
+    The following restrictions are supposed:
     * It's a game for strictly two players
     * fully observable
     * deterministic
     * discrete
     * adversarial
     There are three possible outcomes: first player wins, second player wins, draw.
+    For every concrete game type separate class should be implemented. It should define functionality related to game state and possible moves.
 
     Attributes
     ----------
 
-    agents (list of 2 Agent objects) - Game players are represented by agents that are responsible of move choice
-    state - Concrete state representation is domain-specific and should be defined in derived classes
-    is_first_agent_turn (bool) - Current turn indicator
-    moves_num (int) - Number of currently made mmoves. NB: *moves_num* is incremented after every agent step. So if given value is moves_num
-                     every agent did either moves_num/2 or moves_num/2-1 steps.
-    moves_limit (int or None) - Limit of moves number. The game is ended if its state is terminal of moved_limit is exceeded.
-    debug (bool) - debug flag.
+    agents (list of 2 Agent objects)
+        - Game players are represented by agents that are responsible of move choice
+    state
+        - Concrete state representation is domain-specific and should be defined in derived classes
+    is_first_agent_turn (bool)
+        - Current turn indicator
+    moves_num (int)
+        - Number of currently made mmoves. NB: *moves_num* is incremented after every agent step. So if given value is moves_num
+          every agent did either moves_num/2 or moves_num/2-1 steps.
+    moves_limit (int or None)
+        - Limit of moves number. The game is ended if its state is terminal of moved_limit is exceeded.
+    debug (bool)
+        - debug flag. Used to draw game board
+
+    Methods
+    -------
+
+    move(state)
+        - makes move to the given state
+
+    play()
+        - plays game calling agent move() method till the game is finished
+
+    is_final_state()
+        - checks whether game is finished. Should be redefined by child class
+
+    evaluate()
+        - evaluates the game state. Actual evaluation is done in child classs
+         TBD: current classes return winner label or 'draw'. Maybe it should be redefined
+          to return numerical estimation, and not only for final state
+
+    get_possible_next_states(limit)
+        - returns possible next states. Should be implemented in child class
+
+    picture()
+        - draws board. Should be implemented in child class
+
+    state_hash()
+        - returns state hash for comparison by agents
 
     """
 
@@ -30,8 +64,9 @@ class Game:
                     Game can be started from any state that can be provided manually. Otherwise initial game state should be defined in derived classes
         :param is_first_agent_turn: Since at game initialisation the state is not necessary initial state, turn is also not necessary the default one.
                     Boolean value
-        :param moves_limit:
+        :param moves_limit: - limit of game moves number
         """
+
         self.agents = agents
         self.state = state
         self.is_first_agent_turn = is_first_agent_turn
@@ -43,6 +78,12 @@ class Game:
         self.agents[1].new_game()
 
     def move(self, state):
+        """
+        Makes move to the given state
+
+        :param state:
+        """
+
         self.state = state
         if self.debug:
             self.picture()
@@ -50,6 +91,10 @@ class Game:
         self.moves_num += 1
 
     def play(self):
+        """
+        Plays game calling agent move() method till the game is finished
+        """
+
         if self.debug:
             self.picture()
         while not self.is_final_state() and (self.moves_limit is None or self.moves_num > self.moves_limit):
@@ -70,10 +115,15 @@ class Game:
     def evaluate(self):
         return self.__evaluate(self.state, self.agents[int(not self.is_first_agent_turn)].label)
 
-    def draw(self):
-        pass
+    # def draw(self):
+    #     pass
 
     def get_possible_next_states(self, limit=None):
+        """
+
+        :param limit: TODO: support limit ?
+        :return:
+        """
         pass
 
     def picture(self):
