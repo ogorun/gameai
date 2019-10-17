@@ -125,8 +125,8 @@ In the future, some domain-specific (for example, chess-specific) testing datase
 Comparison of agents work on N games (N = 100 most of time).
 
 
-| Game        | Agent1      |  Agent1 parameters | Agent2      | Agent2 parameters      | Games Number | Time (s)        | Agent1 Wins | Agent2 Wins | Draws |
-| ----------- | ----------- | ------------------ | ----------- | ---------------------- | ------------ | --------------- | ----------- | ----------- | ----- |
-| TicTackToe  | RandomAgent |                    | RandomAgent |                        | 100          | 1               | 62          | 24          | 14    |
-| TicTackToe  | MinimaxAgent|                    | RandomAgent |                        | 100          | 2556 (42:36)    | 100         | 0           | 0     |
-
+| Game        | Agent1      |  Agent1 parameters | Agent2      | Agent2 parameters      | Games Number | Time (s)        | Agent1 Wins | Agent2 Wins | Draws | Comments |
+| ----------- | ----------- | ------------------ | ----------- | ---------------------- | ------------ | --------------- | ----------- | ----------- | ----- | -------- |
+| TicTacToe   | RandomAgent |                    | RandomAgent |                        | 100          | 1               | 62          | 24          | 14    |          |
+| TicTacToe   | MinimaxAgent|                    | RandomAgent |                        | 100          | 2556 (42:36)    | 100         | 0           | 0     |          |
+| TicTacToe   | MinimaxAgent|                    | MinimaxAgent|                        | 100          | 2755 (45:50)    | 0           | 0           | 100   | Strange that it's not twice Minmax/Random |
