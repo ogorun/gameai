@@ -122,7 +122,12 @@ In the future, some domain-specific (for example, chess-specific) testing datase
 
 ## Evaluation results
 
-Comparison of agents work on N games (N = 100 most of time).
+Comparison of agents work on N games (N = 100 most of time). Agents to compare are chosen the following way:
+
+- Agent vs RandomAgent
+- Agent vs itself
+- Agent vs current best
+- Specific interesting cases if any
 
 
 | Game        | Agent1      |  Agent1 parameters | Agent2      | Agent2 parameters      | Games Number | Time (s)        | Agent1 Wins | Agent2 Wins | Draws | Comments |
@@ -130,3 +135,20 @@ Comparison of agents work on N games (N = 100 most of time).
 | TicTacToe   | RandomAgent |                    | RandomAgent |                        | 100          | 1               | 62          | 24          | 14    |          |
 | TicTacToe   | MinimaxAgent|                    | RandomAgent |                        | 100          | 2556 (42:36)    | 100         | 0           | 0     |          |
 | TicTacToe   | MinimaxAgent|                    | MinimaxAgent|                        | 100          | 2755 (45:50)    | 0           | 0           | 100   | Strange that it's not twice Minmax/Random |
+| TicTacToe   | DepthSensitiveMinimaxAgent|      | RandomAgent |                        | 100          | 2434 (40:34)    | 99          | 0           | 1     |          |
+| TicTacToe   | DepthSensitiveMinimaxAgent|      | DepthSensitiveMinimaxAgent |         | 100          |     |          |            |      |          |
+| TicTacToe   | DepthSensitiveMinimaxAgent|      | MinimaxAgent |                       | 100          |     |          |            |      |          |
+| TicTacToe   | MinimaxWithAlphaBeta|            | RandomAgent |                        | 100          |     |          |            |      |          |
+| TicTacToe   | MinimaxWithAlphaBeta|            | MinimaxWithAlphaBeta |               | 100          |     |          |            |      |          |
+| TicTacToe   | MinimaxWithAlphaBeta|            | DepthSensitiveMinimaxAgent |         | 100          |     |          |            |      |          |
+| TicTacToe   | MCSTAgent   | UCB1_const=1.41, trials_num=100 | RandomAgent |                        | 100          |     |          |            |      |          |
+| TicTacToe   | MCSTAgent   | UCB1_const=1.41, trials_num=100 | MCSTAgent   |  UCB1_const=1.41, trials_num=100                        | 100          |     |          |            |      |          |
+| TicTacToe   | MCSTAgent   | UCB1_const=1.41, trials_num=100 | MinimaxWithAlphaBeta |               | 100          |     |          |            |      |          |
+| TicTacToe   | DepthSensitiveMCSTAgent|  UCB1_const=1.41, trials_num=100       | RandomAgent |                        | 100          |     |          |            |      |          |
+| TicTacToe   | DepthSensitiveMCSTAgent| UCB1_const=1.41, trials_num=100  | DepthSensitiveMCSTAgent |  UCB1_const=1.41, trials_num=100         | 100          |     |          |            |      |          |
+| TicTacToe   | DepthSensitiveMCSTAgent| UCB1_const=1.41, trials_num=100  | MCSTAgent |  UCB1_const=1.41, trials_num=100                       | 100          |     |          |            |      |          |
+| TicTacToe   | DepthSensitiveMCSTAgent|  UCB1_const=1.41, trials_num=100      | MinimaxWithAlphaBeta |                       | 100          |     |          |            |      | With the best from different algorithm class (minimax)         |
+| TicTacToe   | SingleTreeDepthSensitiveMCSTAgent| UCB1_const=1.41, trials_num=100       | RandomAgent |                        | 100          |     |          |            |      |          |
+| TicTacToe   | SingleTreeDepthSensitiveMCSTAgent|  UCB1_const=1.41, trials_num=100      | SingleTreeDepthSensitiveMCSTAgent |  UCB1_const=1.41, trials_num=100         | 100          |     |          |            |      |          |
+| TicTacToe   | SingleTreeDepthSensitiveMCSTAgent|  UCB1_const=1.41, trials_num=100      | DepthSensitiveMCSTAgent |  UCB1_const=1.41, trials_num=100                       | 100          |     |          |            |      |          |
+| TicTacToe   | SingleTreeDepthSensitiveMCSTAgent|  UCB1_const=1.41, trials_num=100      | MinimaxWithAlphaBeta |                       | 100          |     |          |            |      | With the best from different algorithm class (minimax)         |
