@@ -137,10 +137,10 @@ Comparison of agents work on N games (N = 100 most of time). Agents to compare a
 | TicTacToe   | MinimaxAgent|                    | MinimaxAgent|                        | 100          | 2755 (45:50)    | 0           | 0           | 100   | Strange that it's not twice Minmax/Random |
 | TicTacToe   | DepthSensitiveMinimaxAgent|      | RandomAgent |                        | 100          | 2434 (40:34)    | 99          | 0           | 1     |          |
 | TicTacToe   | DepthSensitiveMinimaxAgent|      | DepthSensitiveMinimaxAgent |         | 100          | 2558 (42:38)    | 0           | 0           | 100   |          |
-| TicTacToe   | DepthSensitiveMinimaxAgent|      | MinimaxAgent |                       | 100          |     |          |            |      |          |
-| TicTacToe   | MinimaxWithAlphaBeta|            | RandomAgent |                        | 100          |     |          |            |      |          |
-| TicTacToe   | MinimaxWithAlphaBeta|            | MinimaxWithAlphaBeta |               | 100          |     |          |            |      |          |
-| TicTacToe   | MinimaxWithAlphaBeta|            | DepthSensitiveMinimaxAgent |         | 100          |     |          |            |      |          |
+| TicTacToe   | DepthSensitiveMinimaxAgent|      | MinimaxAgent |                       | 100          | 2502 (41:42)    | 0           | 0           | 100   |          |
+| TicTacToe   | MinimaxWithAlphaBeta|            | RandomAgent |                        | 100          | 97 (1:37)       | 99          | 0           | 1     |          |
+| TicTacToe   | MinimaxWithAlphaBeta|            | MinimaxWithAlphaBeta |               | 100          | 117 (1:57)      | 0           | 0           | 100   |          |
+| TicTacToe   | MinimaxWithAlphaBeta|            | DepthSensitiveMinimaxAgent |         | 100          | 366 (6:06)      | 0           | 0           | 100     |          |
 | TicTacToe   | MCSTAgent   | UCB1_const=1.41, trials_num=100 | RandomAgent |                        | 100          |     |          |            |      |          |
 | TicTacToe   | MCSTAgent   | UCB1_const=1.41, trials_num=100 | MCSTAgent   |  UCB1_const=1.41, trials_num=100                        | 100          |     |          |            |      |          |
 | TicTacToe   | MCSTAgent   | UCB1_const=1.41, trials_num=100 | MinimaxWithAlphaBeta |               | 100          |     |          |            |      |          |
@@ -152,3 +152,4 @@ Comparison of agents work on N games (N = 100 most of time). Agents to compare a
 | TicTacToe   | SingleTreeDepthSensitiveMCSTAgent|  UCB1_const=1.41, trials_num=100      | SingleTreeDepthSensitiveMCSTAgent |  UCB1_const=1.41, trials_num=100         | 100          |     |          |            |      |          |
 | TicTacToe   | SingleTreeDepthSensitiveMCSTAgent|  UCB1_const=1.41, trials_num=100      | DepthSensitiveMCSTAgent |  UCB1_const=1.41, trials_num=100                       | 100          |     |          |            |      |          |
 | TicTacToe   | SingleTreeDepthSensitiveMCSTAgent|  UCB1_const=1.41, trials_num=100      | MinimaxWithAlphaBeta |                       | 100          |     |          |            |      | With the best from different algorithm class (minimax)         |
+ 
