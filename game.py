@@ -1,3 +1,5 @@
+import time
+
 class Game:
     """
     A base class used to represent a Game.
@@ -98,7 +100,11 @@ class Game:
         if self.debug:
             self.picture()
         while not self.is_final_state() and (self.moves_limit is None or self.moves_num > self.moves_limit):
+            start = time.time()
             self.move(self.agents[int(not self.is_first_agent_turn)].move(self))
+            end = time.time()
+            if self.debug:
+                print(f'move {self.moves_num}, time - {end-start}')
 
         winner = self.evaluate()
         for agent in self.agents:
