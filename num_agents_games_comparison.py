@@ -95,8 +95,8 @@ agents = [
 results = {game_cls.LABELS[0]: 0, game_cls.LABELS[1]: 0, 'draw': 0}
 for i in tqdm(range(args['number'])):
     #start = time.time()
-    game = game_cls(agents, **game_params)
-    game.play()
+    game = game_cls(**game_params)
+    game.play(agents)
     result = game.evaluate()
     results[result] += 1
     del game

@@ -4,37 +4,24 @@ from game import Game
 class TicTacToe(Game):
     LABELS = ['X', 'O']
 
-    def __init__(self, agents, state=None, is_first_agent_turn=None):
-        agents, state, turn = self.__validate_initialization(agents, state, is_first_agent_turn)
-        super().__init__(agents, state, turn)
+    def __init__(self, state=None, is_first_agent_turn=None):
+        state, turn = self.__validate_initialization(state, is_first_agent_turn)
+        super().__init__(state, turn)
 
-    def __validate_initialization(self, agents, state, is_first_agent_turn):
-
-        is_x_found = is_o_found = False
-        for agent in agents:
-            if agent.label == 'X':
-                is_x_found = True
-            elif agent.label == 'O':
-                is_o_found = True
-            else:
-                raise Exception("Invalid agent")
-
-        if not is_x_found or not is_o_found:
-            raise Exception("Invalid agents")
-
+    def __validate_initialization(self, state, is_first_agent_turn):
         is_first_agent_turn = True if is_first_agent_turn not in [True, False] else is_first_agent_turn
         state = [0, 1, 2, 3, 4, 5, 6, 7, 8] if state is None else state
 
         if len(state) != 9:
             raise Exception('Invalid state')
 
-        return agents, state, is_first_agent_turn
+        return state, is_first_agent_turn
 
     def is_final_state(self):
         return (self.evaluate() is not None)
 
     def evaluate(self):
-        return self.__evaluate(self.state, self.agents[int(not self.is_first_agent_turn)].label)
+        return self.__evaluate(self.state, self.labels[int(not self.is_first_agent_turn)])
 
     def __evaluate(self, state, turn):
         lines = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
@@ -67,6 +54,6 @@ class TicTacToe(Game):
         states = []
         for field in not_filled:
             state = self.state.copy()
-            state[field] = self.agents[int(not self.is_first_agent_turn)].label
+            state[field] = self.labels[int(not self.is_first_agent_turn)]
             states.append(state)
         return states

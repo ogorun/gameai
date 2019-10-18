@@ -15,8 +15,6 @@ class Game:
     Attributes
     ----------
 
-    agents (list of 2 Agent objects)
-        - Game players are represented by agents that are responsible of move choice
     state
         - Concrete state representation is domain-specific and should be defined in derived classes
     is_first_agent_turn (bool)
@@ -57,11 +55,10 @@ class Game:
 
     """
 
-    def __init__(self, agents, state=None, is_first_agent_turn=None, moves_limit=None):
+    def __init__(self, state=None, is_first_agent_turn=None, moves_limit=None):
         """
         Constructor
 
-        :param agents: Game players are represented by agents that are responsible of move choice
         :param state: Concrete state representation is domain-specific and should be defined in derived classes.
                     Game can be started from any state that can be provided manually. Otherwise initial game state should be defined in derived classes
         :param is_first_agent_turn: Since at game initialisation the state is not necessary initial state, turn is also not necessary the default one.
@@ -69,15 +66,13 @@ class Game:
         :param moves_limit: - limit of game moves number
         """
 
-        self.agents = agents
+        self.labels = self.__class__.LABELS
         self.state = state
         self.is_first_agent_turn = is_first_agent_turn
         self.moves_limit = moves_limit
         self.moves_num = 0
         self.debug = False
 
-        self.agents[0].new_game()
-        self.agents[1].new_game()
 
     def move(self, state):
         """
@@ -92,22 +87,25 @@ class Game:
         self.is_first_agent_turn = not self.is_first_agent_turn
         self.moves_num += 1
 
-    def play(self):
+    def play(self, agents):
         """
         Plays game calling agent move() method till the game is finished
         """
+
+        agents[0].new_game()
+        agents[1].new_game()
 
         if self.debug:
             self.picture()
         while not self.is_final_state() and (self.moves_limit is None or self.moves_num > self.moves_limit):
             start = time.time()
-            self.move(self.agents[int(not self.is_first_agent_turn)].move(self))
+            self.move(agents[int(not self.is_first_agent_turn)].move(self))
             end = time.time()
             if self.debug:
                 print(f'move {self.moves_num}, time - {end-start}')
 
         winner = self.evaluate()
-        for agent in self.agents:
+        for agent in agents:
             if agent.label == winner:
                 agent.win()
             elif winner is 'draw':
@@ -119,7 +117,7 @@ class Game:
         pass
 
     def evaluate(self):
-        return self.__evaluate(self.state, self.agents[int(not self.is_first_agent_turn)].label)
+        return self.__evaluate(self.state, self.labels[int(not self.is_first_agent_turn)])
 
     # def draw(self):
     #     pass

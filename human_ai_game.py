@@ -91,12 +91,12 @@ agents = [None, None]
 agents[args['turn']-1] = human_agent
 agents[1 - (args['turn']-1)] = ai_agent
 
-game = game_cls(agents, **game_params)
+game = game_cls(**game_params)
 game.debug = True
 if args['verbosity']:
     for agent in game.agents:
         agent.debug = True
 
 print(f'You play {human_agent.label}')
-game.play()
+game.play(agents)
 print(game.evaluate())

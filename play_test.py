@@ -6,19 +6,19 @@ import time
 
 
 #player_X = RandomAgent('X')
-player_X = MCSTAgent('X', trials_num=10)
+player_X = MCSTAgent('X', trials_num=100)
 #player_X = SingleTreeDepthSensitiveMCSTAgent('X', 1.41, 10, 10)
 #player_O = DepthSensitiveMCSTAgent('O', 1.41, 10, 10)
-player_O = MCSTAgent('O', trials_num=10)
+player_O = MCSTAgent('O', trials_num=100)
 
 results = {'X': 0, 'O': 0, 'draw': 0}
-for i in tqdm(range(1)):
+for i in tqdm(range(100)):
     start = time.time()
-    ttt = TicTacToe([player_X, player_O])
+    ttt = TicTacToe()
     #player_O.new_game()
     #player_X.new_game()
     #ttt.set_debug(True)
-    ttt.play()
+    ttt.play([player_X, player_O])
     result = ttt.evaluate()
     results[result] += 1
     #print('--------------------------')

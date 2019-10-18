@@ -58,9 +58,8 @@ class DepthSensitiveMCSTAgent(Agent):
     def simulate(self, node: MCSTTreeNode):
         tmp_game = copy.deepcopy(node.game)
         tmp_game.debug = False
-        tmp_agents = [RandomAgent(agent.label) for agent in tmp_game.agents]
-        tmp_game.agents = tmp_agents
-        tmp_game.play()
+        tmp_agents = [RandomAgent(label) for label in tmp_game.labels]
+        tmp_game.play(tmp_agents)
         winner = tmp_game.evaluate()
         return self.winner2score(winner, tmp_game.moves_num)
 
