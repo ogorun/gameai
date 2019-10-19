@@ -1,4 +1,5 @@
 from agents import *
+from agent_decorators.win_loose_decorator import WinLooseDecorator
 from games.tictactoe import TicTacToe
 from tqdm import tqdm
 import gc
@@ -6,14 +7,15 @@ import time
 
 
 #player_X = RandomAgent('X')
-player_X = MCSTAgent('X', trials_num=100)
+player_X = WinLooseDecorator(MinimaxWithAlphaBeta('X'))
+#player_X = MinimaxWithAlphaBeta('X')
 #player_X = SingleTreeDepthSensitiveMCSTAgent('X', 1.41, 10, 10)
 #player_O = DepthSensitiveMCSTAgent('O', 1.41, 10, 10)
-player_O = MCSTAgent('O', trials_num=100)
+player_O = MinimaxWithAlphaBeta('O')
 
 results = {'X': 0, 'O': 0, 'draw': 0}
 for i in tqdm(range(100)):
-    start = time.time()
+    #start = time.time()
     ttt = TicTacToe()
     #player_O.new_game()
     #player_X.new_game()
@@ -24,7 +26,7 @@ for i in tqdm(range(100)):
     #print('--------------------------')
     del ttt
     gc.collect()
-    print(f'game {i}: {time.time()-start}')
+    #print(f'game {i}: {time.time()-start}')
 
 print(results)
 

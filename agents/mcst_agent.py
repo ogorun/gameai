@@ -14,7 +14,7 @@ class MCSTAgent(Agent):
         self.UCB_C = UCB1_const
         self.e = 0.000001
 
-    def move(self, game):
+    def move(self, game: Game, possible_states=None):
         self.tree = MCSTTreeNode(game)
 
         for trial in range(self.trials_num):
@@ -38,9 +38,7 @@ class MCSTAgent(Agent):
                 else:
                     new_states = node.game.get_possible_next_states(self.states_limit)
                     for state in new_states:
-                        new_game = copy.deepcopy(node.game)
-                        new_game.debug = False
-                        new_game.move(state)
+                        new_game = node.game.next_state_clone(state)
                         node.append(MCSTTreeNode(new_game))
                     return node.children[0]
             else:

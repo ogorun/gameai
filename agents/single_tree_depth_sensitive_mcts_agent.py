@@ -23,7 +23,7 @@ class SingleTreeDepthSensitiveMCSTAgent(Agent):
             self.tree.delete_child_subtree(self.tree)
             del self.tree
 
-    def move(self, game: Game):
+    def move(self, game: Game, possible_states=None):
         self.reset_tree(game)
 
         for trial in range(self.trials_num):
@@ -65,9 +65,7 @@ class SingleTreeDepthSensitiveMCSTAgent(Agent):
                 else:
                     new_states = node.game.get_possible_next_states(self.states_limit)
                     for state in new_states:
-                        new_game = copy.deepcopy(node.game)
-                        new_game.debug = False
-                        new_game.move(state)
+                        new_game = node.game.next_state_clone(state)
                         node.append(MCSTTreeNode(new_game))
                     return node.children[0]
             else:

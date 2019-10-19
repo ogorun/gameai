@@ -19,3 +19,6 @@
  TicTacToe   | SingleTreeDepthSensitiveMCSTAgent|  UCB1_const=1.41; trials_num=100                        | SingleTreeDepthSensitiveMCSTAgent |  UCB1_const=1.41; trials_num=100                        |100|101 (1:41)|51|20|29|          
  TicTacToe   | SingleTreeDepthSensitiveMCSTAgent|  UCB1_const=1.41; trials_num=100                        | DepthSensitiveMCSTAgent |  UCB1_const=1.41; trials_num=100                        |100|64 (1:04)|55|21|24|          
  TicTacToe   | SingleTreeDepthSensitiveMCSTAgent|  UCB1_const=1.41; trials_num=100                        | MinimaxWithAlphaBeta |                       |100|81 (1:21)|0|33|67| With the best from different algorithm class (minimax)         
+ TicTacToe   |WinLooseDecorator(MinimaxWithAlphaBeta)|| RandomAgent ||100|61 (1:01)|100|0|0|
+ TicTacToe   |WinLooseDecorator(MinimaxWithAlphaBeta)||WinLooseDecorator(MinimaxWithAlphaBeta)||100|69 (1:09)|0|0|100|
+ TicTacToe   |WinLooseDecorator(MinimaxWithAlphaBeta)||MinimaxWithAlphaBeta||100|69 (1:09)|0|0|100|

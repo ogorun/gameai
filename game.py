@@ -1,4 +1,4 @@
-import time
+import time, copy
 
 class Game:
     """
@@ -114,13 +114,10 @@ class Game:
                 agent.loose()
 
     def is_final_state(self):
-        pass
+        raise NotImplementedError("Subclasses should implement this!")
 
     def evaluate(self):
         return self.__evaluate(self.state, self.labels[int(not self.is_first_agent_turn)])
-
-    # def draw(self):
-    #     pass
 
     def get_possible_next_states(self, limit=None):
         """
@@ -128,7 +125,7 @@ class Game:
         :param limit: TODO: support limit ?
         :return:
         """
-        pass
+        raise NotImplementedError("Subclasses should implement this!")
 
     def picture(self):
         """
@@ -140,3 +137,10 @@ class Game:
 
     def state_hash(self):
         return self.state
+
+    def next_state_clone(self, state, debug=False):
+        game = copy.deepcopy(self)
+        if debug is not None:
+            game.debug = False
+        game.move(state)
+        return game

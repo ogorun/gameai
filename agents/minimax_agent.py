@@ -1,15 +1,14 @@
 from game import Game
 from agent import Agent
-import copy
 
 
 class MinimaxAgent(Agent):
 
-    def move(self, game: Game):
-        result = self.__minimax(game)
+    def move(self, game: Game, possible_states=None):
+        result = self.__minimax(game, possible_states=possible_states)
         return result[0].state
 
-    def __minimax(self, game: Game, is_my_turn=True):
+    def __minimax(self, game: Game, is_my_turn=True, possible_states=None):
         winner = game.evaluate()
         if winner == self.label:
             return (game, 10)
@@ -18,12 +17,11 @@ class MinimaxAgent(Agent):
         elif winner is not None:
             return (game, -10)
         else:
-            possible_moves = game.get_possible_next_states()
+            if possible_states is None:
+                possible_states = game.get_possible_next_states()
             results = []
-            for state in possible_moves:
-                game_clone = copy.deepcopy(game)
-                game_clone.debug = False
-                game_clone.move(state)
+            for state in possible_states:
+                game_clone = game.next_state_clone(state)
                 result = self.__minimax(game_clone, not is_my_turn)
                 results.append((game_clone, result[1]))
 

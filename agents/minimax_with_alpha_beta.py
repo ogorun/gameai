@@ -1,6 +1,5 @@
 from agent import Agent
 from game import Game
-import copy
 
 
 class MinimaxWithAlphaBeta(Agent):
@@ -11,11 +10,11 @@ class MinimaxWithAlphaBeta(Agent):
         self.min_score = -max_depth
         self.max_score = max_depth
 
-    def move(self, game: Game):
-        result = self.__minimax(game, 0, self.min_score, self.max_score)
+    def move(self, game: Game, possible_states=None):
+        result = self.__minimax(game, 0, self.min_score, self.max_score, possible_states=possible_states)
         return result[0].state
 
-    def __minimax(self, game: Game, depth, alpha, beta, is_my_turn=True):
+    def __minimax(self, game: Game, depth, alpha, beta, is_my_turn=True, possible_states=None):
         winner = game.evaluate()
         if winner == self.label:
             return (game, self.max_score-depth)
@@ -26,12 +25,11 @@ class MinimaxWithAlphaBeta(Agent):
         elif depth > self.max_depth:
             return (game,  beta if is_my_turn else alpha)
         else:
-            possible_moves = game.get_possible_next_states()
+            if possible_states is None:
+                possible_states = game.get_possible_next_states()
             results = []
-            for state in possible_moves:
-                game_clone = copy.deepcopy(game)
-                game_clone.debug = False
-                game_clone.move(state)
+            for state in possible_states:
+                game_clone = game.next_state_clone(state)
                 result = self.__minimax(game_clone, depth + 1, alpha, beta, not is_my_turn)
                 results.append((game_clone, result[1]))
 

@@ -1,5 +1,4 @@
 from agent import Agent
-from game import Game
 from agents.random_agent import RandomAgent
 import math, copy
 import gc
@@ -15,7 +14,7 @@ class DepthSensitiveMCSTAgent(Agent):
         self.UCB_C = UCB1_const
         self.e = 0.000001
 
-    def move(self, game):
+    def move(self, game, possible_states=None):
         if hasattr(self, 'tree'):
             del self.tree
             gc.collect()
@@ -23,7 +22,7 @@ class DepthSensitiveMCSTAgent(Agent):
         self.tree = MCSTTreeNode(game)
 
         for trial in range(self.trials_num):
-            node = self.select()
+            node = self.select(possible_states)
             result = self.simulate(node)
             self.backpropogate(node, result)
             if self.debug:
@@ -34,18 +33,19 @@ class DepthSensitiveMCSTAgent(Agent):
             print(self.tree.leafs_counter())
         return chosen_node.game.state
 
-    def select(self):
+    def select(self, possible_states=None):
         node = self.tree
         while True:
             if node.is_leaf():
                 if node.n == 0 or node.game.is_final_state(): # new node
                     return node
                 else:
-                    new_states = node.game.get_possible_next_states(self.states_limit)
+                    if node.id == self.tree.id and possible_states is not None:
+                        new_states = possible_states
+                    else:
+                        new_states = node.game.get_possible_next_states(self.states_limit)
                     for state in new_states:
-                        new_game = copy.deepcopy(node.game)
-                        new_game.debug = False
-                        new_game.move(state)
+                        new_game = node.game.next_state_clone(state)
                         node.append(MCSTTreeNode(new_game))
                     return node.children[0]
             else:
