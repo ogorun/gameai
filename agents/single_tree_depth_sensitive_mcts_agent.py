@@ -6,7 +6,6 @@ import gc
 from agents.mcts_node import MCSTTreeNode
 
 
-
 class SingleTreeDepthSensitiveMCSTAgent(Agent):
 
     def __init__(self, label, UCB1_const=1.41, trials_num=100, states_limit = 3):
@@ -24,7 +23,7 @@ class SingleTreeDepthSensitiveMCSTAgent(Agent):
             del self.tree
 
     def move(self, game: Game, possible_states=None):
-        self.reset_tree(game)
+        self.reset_tree(game, possible_states)
 
         for trial in range(self.trials_num):
             node = self.select()
@@ -39,13 +38,13 @@ class SingleTreeDepthSensitiveMCSTAgent(Agent):
 
         return self.chosen_node.game.state
 
-    def reset_tree(self, game):
+    def reset_tree(self, game, possible_states=None):
         node = None
         if hasattr(self, 'chosen_node'):
             node = self.chosen_node.find_game_node(game)
             if node is None:
                 node = MCSTTreeNode(copy.deepcopy(game))
-                self.chosen_node.append(node)
+                #self.chosen_node.append(node)
             elif self.debug:
                 print('found!!!!!!', len(node.children))
             self.tree.prune_tree_with_node(node)
@@ -53,8 +52,46 @@ class SingleTreeDepthSensitiveMCSTAgent(Agent):
         else:
             node = MCSTTreeNode(copy.deepcopy(game))
 
+        self.update_node_children_with_states(node, possible_states)
+
         self.tree = node
         gc.collect()
+
+    def update_node_children_with_states(self, node, possible_states):
+        if possible_states is None:
+            return
+
+        found_children, not_found_children, found_states = self.find_children_by_states(node, possible_states)
+
+        for child in not_found_children:
+            node.delete_child_subtree(child)
+
+        states_to_add = [state for state in possible_states if state not in found_states]
+        self.add_children_for_states(node, states_to_add)
+
+    def add_children_for_states(self, node, states):
+        for state in states:
+            game = node.game.next_state_clone(state)
+            node.append(MCSTTreeNode(game))
+
+    def find_children_by_states(self, node, possible_states):
+        found_states = []
+        not_found_children = []
+        found_children = []
+        for child in node.children:
+            is_child_found = False
+            for state in possible_states:
+                if state == child.game.state:
+                    found_states.append(state)
+                    found_children.append(child)
+                    is_child_found = True
+                    break
+
+            if not is_child_found:
+                not_found_children.append(child)
+
+        return (found_children, not_found_children, found_states)
+
 
     def select(self):
         node = self.tree
@@ -68,6 +105,8 @@ class SingleTreeDepthSensitiveMCSTAgent(Agent):
                         new_game = node.game.next_state_clone(state)
                         node.append(MCSTTreeNode(new_game))
                     return node.children[0]
+            elif node.n == 0:
+                return node.children[0]
             else:
                 ucb1_scores = [(n, self.ucb1(n)) for n in node.children]
                 node = max(ucb1_scores, key=lambda x: x[1])[0]

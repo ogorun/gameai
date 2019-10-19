@@ -7,11 +7,11 @@ import time
 
 
 #player_X = RandomAgent('X')
-player_X = WinLooseDecorator(MinimaxWithAlphaBeta('X'))
+player_X = WinLooseDecorator(SingleTreeDepthSensitiveMCSTAgent('X'))
 #player_X = MinimaxWithAlphaBeta('X')
 #player_X = SingleTreeDepthSensitiveMCSTAgent('X', 1.41, 10, 10)
 #player_O = DepthSensitiveMCSTAgent('O', 1.41, 10, 10)
-player_O = MinimaxWithAlphaBeta('O')
+player_O = WinLooseDecorator(MinimaxWithAlphaBeta('O'))
 
 results = {'X': 0, 'O': 0, 'draw': 0}
 for i in tqdm(range(100)):

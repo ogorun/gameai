@@ -22,3 +22,8 @@
  TicTacToe   |WinLooseDecorator(MinimaxWithAlphaBeta)|| RandomAgent ||100|61 (1:01)|100|0|0|
  TicTacToe   |WinLooseDecorator(MinimaxWithAlphaBeta)||WinLooseDecorator(MinimaxWithAlphaBeta)||100|69 (1:09)|0|0|100|
  TicTacToe   |WinLooseDecorator(MinimaxWithAlphaBeta)||MinimaxWithAlphaBeta||100|69 (1:09)|0|0|100|
+ TicTacToe   |WinLooseDecorator( MCSTAgent)|  UCB1_const=1.41; trials_num=100                        | RandomAgent ||100|3 (0:03)|92|3|5|
+ TicTacToe   |WinLooseDecorator( MCSTAgent)|  UCB1_const=1.41; trials_num=100                        |WinLooseDecorator( MCSTAgent)|  UCB1_const=1.41; trials_num=100                        |100|5 (0:05)|21|12|67|Increases number of draws in comparison to pure MCST
+ TicTacToe   |WinLooseDecorator( SingleTreeDepthSensitiveMCSTAgent)|  UCB1_const=1.41; trials_num=100                        | RandomAgent ||100|29 (0:29)|92|3|5|
+ TicTacToe   |WinLooseDecorator( SingleTreeDepthSensitiveMCSTAgent)|  UCB1_const=1.41; trials_num=100                        |WinLooseDecorator( SingleTreeDepthSensitiveMCSTAgent)|  UCB1_const=1.41; trials_num=100                        |100|55 (0:55)|21|9|70|
+ TicTacToe   |WinLooseDecorator( SingleTreeDepthSensitiveMCSTAgent)|  UCB1_const=1.41; trials_num=100                        |WinLooseDecorator(MinimaxWithAlphaBeta)||100|48 (0:48)|0|8|92|

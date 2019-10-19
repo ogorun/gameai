@@ -37,7 +37,7 @@ class DepthSensitiveMCSTAgent(Agent):
         node = self.tree
         while True:
             if node.is_leaf():
-                if node.n == 0 or node.game.is_final_state(): # new node
+                if node.n == 0 and node.id != self.tree.id or node.game.is_final_state(): # new node
                     return node
                 else:
                     if node.id == self.tree.id and possible_states is not None:
