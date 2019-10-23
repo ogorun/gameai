@@ -5,8 +5,8 @@ from agent_decorators.win_loose_decorator import WinLooseDecorator
 
 order = int(input('You play with O. Choose order: (1/2)?'))
 
-#player_X = MinimaxWithAlphaBeta('X')
-player_X = WinLooseDecorator(SingleTreeDepthSensitiveMCSTAgent('X'))
+player_X = MinimaxWithAlphaBeta('X', max_depth=1)
+#player_X = WinLooseDecorator(SingleTreeDepthSensitiveMCSTAgent('X'))
 player_X.debug = True
 player_O = HumanTicTacToeCliAgent('O')
 

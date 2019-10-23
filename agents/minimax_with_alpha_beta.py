@@ -22,8 +22,13 @@ class MinimaxWithAlphaBeta(Agent):
             return (game, 0)
         elif winner is not None:
             return (game, self.min_score+depth)
-        elif depth > self.max_depth:
-            return (game,  beta if is_my_turn else alpha)
+        elif depth >= self.max_depth:
+            score = game.evaluate_heuristic()
+            if score > 0:
+                score = score - depth
+            elif score < 0:
+                score = score + depth
+            return (game,  score if is_my_turn else alpha)
         else:
             if possible_states is None:
                 possible_states = game.get_possible_next_states()
