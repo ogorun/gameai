@@ -22,7 +22,7 @@ class TicTacToe(Game):
         return (self.evaluate() is not None)
 
     def evaluate(self):
-        return self.__evaluate(self.state, self.labels[int(not self.is_first_agent_turn)])
+        return self.__evaluate(self.state, self.labels[int(self.is_first_agent_turn)])
 
     def __evaluate(self, state, turn):
         winner = self.check_three_in_line(state)
@@ -36,48 +36,54 @@ class TicTacToe(Game):
         return None
 
     def evaluate_heuristic(self):
-        return self.__evaluate_heuristic(self.state, self.labels[int(not self.is_first_agent_turn)])
+        for field in [0,2,4,6,8]:
+            if type(self.state[field]) == int:
+                return 1 * (1 if self.is_first_agent_turn else -1)
 
-    def __evaluate_heuristic(self, state, turn):
-        evaluate_as_final = self.__evaluate(state, turn)
-        if evaluate_as_final is not None:
-            return evaluate_as_final
-
-        sign = turn
-        second_sign = [label for label in self.LABELS if label != turn][0]
-
-        game_clone = self.next_state_clone(state)
-        possible_states = game_clone.get_possible_next_states()
-        next_state_count_lines = []
-        # opposite 3 in line on next move - -100
-        for next_state in possible_states:
-            next_state_count_lines.append(game_clone.count_lines(next_state))
-            if next_state_count_lines[-1][3][second_sign] > 0:
-                return -100
-
-        state_count_lines = self.count_lines(state)
-
-        # fork (2 in line twice) - 50
-        if state_count_lines[2][sign] == 2:
-            return 50
-
-        # opposite fork (2 in line twice) on next move  - -50
-        for counter in next_state_count_lines:
-            # TODO: This condition will miss 2 in line blocked by next fork
-            if counter[2][second_sign] == 2 and state_count_lines[2][sign] == 0:
-                return -50
-
-        # 2 in line - 20
-        if state_count_lines[2][sign] > 0:
-            return 20
-
-        # opposite 2 in line on next move - -20
-        for counter in next_state_count_lines:
-            if counter[2][second_sign] > 0:
-                return -20
-
-        # default - 0
         return 0
+
+
+    # def evaluate_heuristic(self):
+    #     evaluate_as_final = self.evaluate()
+    #     if evaluate_as_final is not None:
+    #         return evaluate_as_final
+    #
+    #     past_turn_label = self.labels[int(not self.is_first_agent_turn)]
+    #     next_turn_label = [label for label in self.LABELS if label != past_turn_label][0]
+    #     sign = 1 if self.is_first_agent_turn else -1
+    #
+    #     possible_states = self.get_possible_next_states()
+    #     next_state_count_lines = []
+    #     # opposite 3 in line on next move - -100
+    #     for next_state in possible_states:
+    #         game_clone = self.next_state_clone(next_state)
+    #         next_state_count_lines.append(game_clone.count_lines(next_state))
+    #         if next_state_count_lines[-1][3][next_turn_label] > 0:
+    #             return -100*sign
+    #
+    #     state_count_lines = self.count_lines(self.state)
+    #
+    #     # fork (2 in line twice) - 50
+    #     if state_count_lines[2][past_turn_label] == 2:
+    #         return 50*sign
+    #
+    #     # opposite fork (2 in line twice) on next move  - -50
+    #     for counter in next_state_count_lines:
+    #         # TODO: This condition will miss 2 in line blocked by next fork
+    #         if counter[2][next_turn_label] == 2 and state_count_lines[2][past_turn_label] == 0:
+    #             return -50*sign
+    #
+    #     # 2 in line - 20
+    #     if state_count_lines[2][past_turn_label] > 0:
+    #         return 20*sign
+    #
+    #     # opposite 2 in line on next move - -20
+    #     for counter in next_state_count_lines:
+    #         if counter[2][next_turn_label] > 0:
+    #             return -20*sign
+    #
+    #     # default - 0
+    #     return 0
 
     def check_three_in_line(self, state):
         lines = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]

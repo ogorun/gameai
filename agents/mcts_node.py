@@ -6,7 +6,6 @@ from networkx.drawing.nx_agraph import graphviz_layout
 import matplotlib.pyplot as plt
 
 
-
 class MCSTTreeNode:
     sequence = 0
 

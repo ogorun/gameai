@@ -15,6 +15,7 @@ class MinimaxWithAlphaBeta(Agent):
         return result[0].state
 
     def __minimax(self, game: Game, depth, alpha, beta, is_my_turn=True, possible_states=None):
+
         winner = game.evaluate()
         if winner == self.label:
             return (game, self.max_score-depth)
@@ -23,12 +24,15 @@ class MinimaxWithAlphaBeta(Agent):
         elif winner is not None:
             return (game, self.min_score+depth)
         elif depth >= self.max_depth:
-            score = game.evaluate_heuristic()
+            my_label_index = [index for index in [0,1] if game.labels[index] == self.label][0]
+
+            factor = ((-1)**depth) * (1 if my_label_index == 0 else -1)
+            score = game.evaluate_heuristic()*factor
             if score > 0:
                 score = score - depth
             elif score < 0:
                 score = score + depth
-            return (game,  score if is_my_turn else alpha)
+            return (game, score)
         else:
             if possible_states is None:
                 possible_states = game.get_possible_next_states()

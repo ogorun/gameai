@@ -120,7 +120,7 @@ class Game:
         return self.__evaluate(self.state, self.labels[int(not self.is_first_agent_turn)])
 
     def evaluate_heuristic(self):
-        return self.__evaluate_heuristic(self.state, self.labels[int(not self.is_first_agent_turn)])
+        raise NotImplementedError("Subclasses should implement this!")
 
     def get_possible_next_states(self, limit=None):
         """
