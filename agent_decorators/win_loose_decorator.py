@@ -29,22 +29,20 @@ class WinLooseDecorator(AgentDecorator):
             agent = RandomAgent(self.label)
             return agent.move(game)
 
-    def check_next_step(self, game, possible_states=None):
-        if possible_states is None:
-            possible_states = game.get_possible_next_states()
+    def check_next_step(self, game, possible_steps=None):
+        if possible_steps is None:
+            possible_steps = game.get_possible_next_steps()
         draw_steps = []
         loosing_steps = []
-        for state in possible_states:
-            game_clone = game.next_state_clone(state)
+        for move in possible_steps:
+            game_clone = game.copy_and_move(move)
             winner = game_clone.evaluate()
             if winner == self.label:
-                return (state, None, None, possible_states)
+                return (move, None, None, possible_steps)
             elif winner == 'draw':
-                draw_steps.append(state)
+                draw_steps.append(move)
             elif winner is not None:
-                loosing_steps.append(state)
+                loosing_steps.append(move)
 
-        possible_states = [state for state in possible_states if state not in loosing_steps]
-        return (None, loosing_steps, draw_steps, possible_states)
-
-
+        possible_steps = [state for state in possible_steps if state not in loosing_steps]
+        return (None, loosing_steps, draw_steps, possible_steps)

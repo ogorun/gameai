@@ -9,9 +9,10 @@ import matplotlib.pyplot as plt
 class MCSTTreeNode:
     sequence = 0
 
-    def __init__(self, game: Game):
+    def __init__(self, game: Game, step=None):
         self.id = self.__class__.sequence
         self.game = game
+        self.step = step
         self.n = 0
         self.s = 0
         self.children = []

@@ -10,19 +10,19 @@ class MinimaxWithAlphaBeta(Agent):
         self.min_score = -1000000
         self.max_score = 1000000
 
-    def move(self, game: Game, possible_states=None):
-        result = self.__minimax(game, 0, self.min_score, self.max_score, possible_states=possible_states)
-        return result[0].state
+    def move(self, game: Game, possible_steps=None):
+        result = self.__minimax(game, 0, self.min_score, self.max_score, possible_steps=possible_steps)
+        return result[0]
 
-    def __minimax(self, game: Game, depth, alpha, beta, is_my_turn=True, possible_states=None):
+    def __minimax(self, game: Game, depth, alpha, beta, is_my_turn=True, step=None, possible_steps=None):
 
         winner = game.evaluate()
         if winner == self.label:
-            return (game, self.max_score-depth)
+            return (step, self.max_score-depth)
         elif winner == 'draw':
-            return (game, 0)
+            return (step, 0)
         elif winner is not None:
-            return (game, self.min_score+depth)
+            return (step, self.min_score+depth)
         elif depth >= self.max_depth:
             my_label_index = [index for index in [0,1] if game.labels[index] == self.label][0]
             factor = (1 if my_label_index == 0 else -1)
@@ -31,15 +31,15 @@ class MinimaxWithAlphaBeta(Agent):
                 score = score - depth
             elif score < 0:
                 score = score + depth
-            return (game, score)
+            return (step, score)
         else:
-            if possible_states is None:
-                possible_states = game.get_possible_next_states()
+            if possible_steps is None:
+                possible_steps = game.get_possible_next_steps()
             results = []
-            for state in possible_states:
-                game_clone = game.next_state_clone(state)
-                result = self.__minimax(game_clone, depth + 1, alpha, beta, not is_my_turn)
-                results.append((game_clone, result[1]))
+            for current_step in possible_steps:
+                game_clone = game.copy_and_move(current_step)
+                result = self.__minimax(game_clone, depth + 1, alpha, beta, not is_my_turn, current_step)
+                results.append((current_step, result[1]))
 
                 if is_my_turn and alpha < result[1]:
                     alpha = result[1]

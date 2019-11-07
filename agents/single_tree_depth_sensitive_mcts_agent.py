@@ -3,7 +3,7 @@ from game import Game
 from agents.random_agent import RandomAgent
 import math, copy
 import gc
-from agents.mcts_node import MCSTTreeNode
+from agents.mcst_node import MCSTTreeNode
 
 
 class SingleTreeDepthSensitiveMCSTAgent(Agent):
@@ -22,8 +22,8 @@ class SingleTreeDepthSensitiveMCSTAgent(Agent):
             self.tree.delete_child_subtree(self.tree)
             del self.tree
 
-    def move(self, game: Game, possible_states=None):
-        self.reset_tree(game, possible_states)
+    def move(self, game: Game, possible_steps=None):
+        self.reset_tree(game, possible_steps)
 
         for trial in range(self.trials_num):
             node = self.select()
@@ -36,7 +36,7 @@ class SingleTreeDepthSensitiveMCSTAgent(Agent):
         if self.debug:
             print(self.tree.leafs_counter())
 
-        return self.chosen_node.game.state
+        return self.chosen_node.step
 
     def reset_tree(self, game, possible_states=None):
         node = None
@@ -92,7 +92,6 @@ class SingleTreeDepthSensitiveMCSTAgent(Agent):
 
         return (found_children, not_found_children, found_states)
 
-
     def select(self):
         node = self.tree
         while True:
@@ -100,10 +99,10 @@ class SingleTreeDepthSensitiveMCSTAgent(Agent):
                 if node.n == 0 and node.id != self.tree.id or node.game.is_final_state(): # new node
                     return node
                 else:
-                    new_states = node.game.get_possible_next_states(self.states_limit)
-                    for state in new_states:
-                        new_game = node.game.next_state_clone(state)
-                        node.append(MCSTTreeNode(new_game))
+                    possible_steps = node.game.get_possible_next_steps(self.states_limit)
+                    for step in possible_steps:
+                        new_game = node.game.copy_and_move(step)
+                        node.append(MCSTTreeNode(new_game, step))
                     return node.children[0]
             elif node.n == 0:
                 return node.children[0]

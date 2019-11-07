@@ -2,7 +2,7 @@ from agent import Agent
 from game import Game
 from agents.random_agent import RandomAgent
 import math, copy
-from agents.mcts_node import MCSTTreeNode
+from agents.mcst_node import MCSTTreeNode
 
 
 class MCSTAgent(Agent):
@@ -14,11 +14,11 @@ class MCSTAgent(Agent):
         self.UCB_C = UCB1_const
         self.e = 0.000001
 
-    def move(self, game: Game, possible_states=None):
+    def move(self, game: Game, possible_steps=None):
         self.tree = MCSTTreeNode(game)
 
         for trial in range(self.trials_num):
-            node = self.select(possible_states)
+            node = self.select(possible_steps)
             result = self.simulate(node)
             self.backpropogate(node, result)
             if self.debug:
@@ -27,22 +27,22 @@ class MCSTAgent(Agent):
         chosen_node = self.choose_best_child()
         if self.debug:
             print(self.tree.leafs_counter())
-        return chosen_node.game.state
+        return chosen_node.step
 
-    def select(self, possible_states=None):
+    def select(self, possible_steps=None):
         node = self.tree
         while True:
             if node.is_leaf():
                 if node.n == 0 and node.id != self.tree.id or node.game.is_final_state(): # new node
                     return node
                 else:
-                    if possible_states is not None and node.id == self.tree.id:
-                        new_states = possible_states
+                    if possible_steps is not None and node.id == self.tree.id:
+                        new_steps = possible_steps
                     else:
-                        new_states = node.game.get_possible_next_states(self.states_limit)
-                    for state in new_states:
-                        new_game = node.game.next_state_clone(state)
-                        node.append(MCSTTreeNode(new_game))
+                        new_steps = node.game.get_possible_next_steps(self.states_limit)
+                    for step in new_steps:
+                        new_game = node.game.copy_and_move(step)
+                        node.append(MCSTTreeNode(new_game, step))
                     return node.children[0]
             else:
                 ucb1_scores = [(n, self.ucb1(n)) for n in node.children]

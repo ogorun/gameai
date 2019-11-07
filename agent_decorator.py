@@ -8,7 +8,7 @@ class AgentDecorator(Agent):
         super().__init__(agent.label)
         self.agent = agent
 
-    def move(self, game: Game, possible_states=None):
+    def move(self, game: Game, possible_moves=None):
         raise NotImplementedError("Subclasses should implement this!")
 
     def new_game(self):

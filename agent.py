@@ -9,7 +9,7 @@ class Agent:
         self.debug = False
         self.evaluator = Evaluator()
 
-    def move(self, game: Game, possible_states=None):
+    def move(self, game: Game, possible_moves=None):
         raise NotImplementedError("Subclasses should implement this!")
 
     def win(self):

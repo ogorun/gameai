@@ -1,17 +1,14 @@
 from agent import Agent
-from game import Game
+from games.tictactoe import TicTacToe
 
 
 class HumanTicTacToeCliAgent(Agent):
 
-    def move(self, game: Game, possible_states=None):
-        available = game.get_possible_next_states()
+    def move(self, game: TicTacToe, possible_steps=None):
+        available = game.get_possible_next_steps()
         while True:
             choice = int(input('Your move? [0-8]'))
-            state = game.state.copy()
-            if choice >=0 and choice < 9:
-                state[choice] = self.label
-                if state in available:
-                    return state
+            if choice in available:
+                return choice
 
             print('Not available')

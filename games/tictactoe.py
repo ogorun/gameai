@@ -70,7 +70,6 @@ class TicTacToe(Game):
 
         return label_count
 
-
     def picture(self):
         print('===')
         for row in range(0,3):
@@ -85,11 +84,10 @@ class TicTacToe(Game):
     def __find_not_filled(state):
         return [field for field in state if type(field) == int]
 
-    def get_possible_next_states(self, limit=None):
-        not_filled = self.__find_not_filled(self.state)
-        states = []
-        for field in not_filled:
-            state = self.state.copy()
-            state[field] = self.labels[int(not self.is_first_agent_turn)]
-            states.append(state)
-        return states
+    def get_possible_next_steps(self, limit=None):
+        return self.__find_not_filled(self.state)
+
+    def move2state(self, step):
+        state = self.state.copy()
+        state[step] = self.labels[int(not self.is_first_agent_turn)]
+        return state

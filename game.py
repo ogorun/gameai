@@ -44,9 +44,6 @@ class Game:
          TBD: current classes return winner label or 'draw'. Maybe it should be redefined
           to return numerical estimation, and not only for final state
 
-    get_possible_next_states(limit)
-        - returns possible next states. Should be implemented in child class
-
     picture()
         - draws board. Should be implemented in child class
 
@@ -74,7 +71,7 @@ class Game:
         self.debug = False
 
 
-    def move(self, state):
+    def go_to_next_state(self, state):
         """
         Makes move to the given state
 
@@ -86,6 +83,14 @@ class Game:
             self.picture()
         self.is_first_agent_turn = not self.is_first_agent_turn
         self.moves_num += 1
+
+    def move2state(self, step):
+        raise NotImplementedError("Subclasses should implement this!")
+
+
+    def move(self, step):
+        state = self.move2state(step)
+        self.go_to_next_state(state)
 
     def play(self, agents):
         """
@@ -119,7 +124,7 @@ class Game:
     def evaluate(self):
         return self.__evaluate(self.state, self.labels[int(not self.is_first_agent_turn)])
 
-    def get_possible_next_states(self, limit=None):
+    def get_possible_next_steps(self, limit=None):
         """
 
         :param limit: TODO: support limit ?
@@ -138,9 +143,16 @@ class Game:
     def state_hash(self):
         return self.state
 
-    def next_state_clone(self, state, debug=False):
+    # def next_state_clone(self, state, debug=False):
+    #     game = copy.deepcopy(self)
+    #     if debug is not None:
+    #         game.debug = False
+    #     game.go_to_next_state(state)
+    #     return game
+
+    def copy_and_move(self, step, debug=False):
         game = copy.deepcopy(self)
         if debug is not None:
             game.debug = False
-        game.move(state)
+        game.move(step)
         return game

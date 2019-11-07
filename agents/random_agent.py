@@ -5,9 +5,9 @@ import random
 
 class RandomAgent(Agent):
 
-    def move(self, game: Game, possible_states=None):
-        if possible_states is None:
-            possible_states = game.get_possible_next_states()
-        index = random.randint(0, len(possible_states) - 1)
-        return possible_states[index]
+    def move(self, game: Game, possible_steps=None):
+        if possible_steps is None:
+            possible_steps = game.get_possible_next_steps()
+        index = random.randint(0, len(possible_steps) - 1)
+        return possible_steps[index]
 
