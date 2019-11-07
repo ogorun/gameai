@@ -21,7 +21,13 @@ class SplitStacksNim(Game):
         return self.labels[int(self.is_first_agent_turn)]
 
     def evaluate_heuristic(self):
-        raise NotImplementedError("Subclasses should implement this!")
+        winner = self.evaluate()
+        if winner is not None:
+            return winner
+
+        evens = [stack for stack in self.state if stack % 2 == 0]
+        is_odd_number_of_evens = (len(evens) % 2 == 1)
+        return (int(is_odd_number_of_evens)*2 - 1)*(-1**self.is_first_agent_turn)
 
     def get_possible_next_states(self, limit=None):
         """

@@ -7,8 +7,8 @@ class MinimaxWithAlphaBeta(Agent):
     def __init__(self, label, max_depth=10):
         super().__init__(label)
         self.max_depth = max_depth
-        self.min_score = -max_depth
-        self.max_score = max_depth
+        self.min_score = -1000000
+        self.max_score = 1000000
 
     def move(self, game: Game, possible_states=None):
         result = self.__minimax(game, 0, self.min_score, self.max_score, possible_states=possible_states)
@@ -25,8 +25,7 @@ class MinimaxWithAlphaBeta(Agent):
             return (game, self.min_score+depth)
         elif depth >= self.max_depth:
             my_label_index = [index for index in [0,1] if game.labels[index] == self.label][0]
-
-            factor = ((-1)**depth) * (1 if my_label_index == 0 else -1)
+            factor = (1 if my_label_index == 0 else -1)
             score = game.evaluate_heuristic()*factor
             if score > 0:
                 score = score - depth
