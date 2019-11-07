@@ -35,31 +35,6 @@ class TicTacToe(Game):
 
         return None
 
-    def evaluate_heuristic(self):
-        lines = self.count_lines(self.state)
-        if lines[3][self.labels[0]] > 0:
-            return 100
-        if lines[3][self.labels[1]] > 0:
-            return -100
-
-        if self.is_first_agent_turn and lines[2][self.labels[0]] > 0:
-            return 50
-        if not self.is_first_agent_turn and lines[2][self.labels[1]] > 0:
-            return -50
-
-        if lines[2][self.labels[0]] > 1:
-            return 30
-        if lines[2][self.labels[1]] > 1:
-            return -30
-
-        if lines[2][self.labels[0]] > 0:
-            return 10
-        if lines[2][self.labels[1]] > 0:
-            return -10
-
-        return 0
-
-
     def check_three_in_line(self, state):
         lines = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]
         for line in lines:

@@ -26,7 +26,7 @@ class MinimaxWithAlphaBeta(Agent):
         elif depth >= self.max_depth:
             my_label_index = [index for index in [0,1] if game.labels[index] == self.label][0]
             factor = (1 if my_label_index == 0 else -1)
-            score = game.evaluate_heuristic()*factor
+            score = self.evaluator.evaluate(game)*factor
             if score > 0:
                 score = score - depth
             elif score < 0:
