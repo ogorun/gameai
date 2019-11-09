@@ -52,7 +52,7 @@ class Game:
 
     """
 
-    def __init__(self, state=None, is_first_agent_turn=None, moves_limit=None):
+    def __init__(self, state=None, is_first_agent_turn=True, moves_limit=None):
         """
         Constructor
 
@@ -69,7 +69,6 @@ class Game:
         self.moves_limit = moves_limit
         self.moves_num = 0
         self.debug = False
-
 
     def go_to_next_state(self, state):
         """
@@ -142,13 +141,6 @@ class Game:
 
     def state_hash(self):
         return self.state
-
-    # def next_state_clone(self, state, debug=False):
-    #     game = copy.deepcopy(self)
-    #     if debug is not None:
-    #         game.debug = False
-    #     game.go_to_next_state(state)
-    #     return game
 
     def copy_and_move(self, step, debug=False):
         game = copy.deepcopy(self)

@@ -11,15 +11,15 @@ class WinLooseDecorator(AgentDecorator):
             return winning_step
 
         steps_to_exclude = []
-        for state in possible_steps:
-            game_clone = game.next_state_clone(state)
+        for step in possible_steps:
+            game_clone = game.copy_and_move(step)
             winning_step2, loosing_steps2, draw_steps2, possible_steps2 = self.check_next_step(game_clone)
             if len(loosing_steps2) > 0:
-                steps_to_exclude.append(state)
+                steps_to_exclude.append(step)
             draw_steps += draw_steps2
 
         if len(steps_to_exclude) > 0:
-            possible_steps = [state2 for state2 in possible_steps if state2 not in steps_to_exclude]
+            possible_steps = [step2 for step2 in possible_steps if step2 not in steps_to_exclude]
 
         if len(possible_steps) == 1:
             return possible_steps[0]
@@ -44,5 +44,5 @@ class WinLooseDecorator(AgentDecorator):
             elif winner is not None:
                 loosing_steps.append(move)
 
-        possible_steps = [state for state in possible_steps if state not in loosing_steps]
+        possible_steps = [step for step in possible_steps if step not in loosing_steps]
         return (None, loosing_steps, draw_steps, possible_steps)

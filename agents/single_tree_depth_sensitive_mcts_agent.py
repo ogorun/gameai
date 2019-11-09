@@ -8,10 +8,10 @@ from agents.mcst_node import MCSTTreeNode
 
 class SingleTreeDepthSensitiveMCSTAgent(Agent):
 
-    def __init__(self, label, UCB1_const=1.41, trials_num=100, states_limit = 3):
+    def __init__(self, label, UCB1_const=1.41, trials_num=100, steps_limit = 3):
         super().__init__(label)
         self.trials_num = trials_num
-        self.states_limit = states_limit
+        self.steps_limit = steps_limit
         self.UCB_C = UCB1_const
         self.e = 0.000001
 
@@ -23,6 +23,7 @@ class SingleTreeDepthSensitiveMCSTAgent(Agent):
             del self.tree
 
     def move(self, game: Game, possible_steps=None):
+        # TODO: check. Probably reset_tree() logic is based on state and not step (since tree nodes represent states)
         self.reset_tree(game, possible_steps)
 
         for trial in range(self.trials_num):

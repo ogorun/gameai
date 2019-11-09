@@ -7,10 +7,10 @@ from agents.mcst_node import MCSTTreeNode
 
 class DepthSensitiveMCSTAgent(Agent):
 
-    def __init__(self, label, UCB1_const=1.41, trials_num=100, states_limit = 3):
+    def __init__(self, label, UCB1_const=1.41, trials_num=100, steps_limit = 3):
         super().__init__(label)
         self.trials_num = trials_num
-        self.states_limit = states_limit
+        self.steps_limit = steps_limit
         self.UCB_C = UCB1_const
         self.e = 0.000001
 
@@ -43,7 +43,7 @@ class DepthSensitiveMCSTAgent(Agent):
                     if node.id == self.tree.id and possible_steps is not None:
                         new_steps = possible_steps
                     else:
-                        new_steps = node.game.get_possible_next_steps(self.states_limit)
+                        new_steps = node.game.get_possible_next_steps(self.steps_limit)
                     for step in new_steps:
                         new_game = node.game.copy_and_move(step)
                         node.append(MCSTTreeNode(new_game, step))
