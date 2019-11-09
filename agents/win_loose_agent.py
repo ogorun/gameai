@@ -1,9 +1,9 @@
 from game import Game
-from agent_decorator import AgentDecorator
+from agent import Agent
 from agents.random_agent import RandomAgent
 
 
-class WinLooseDecorator(AgentDecorator):
+class WinLooseAgent(Agent):
 
     def move(self, game: Game, possible_steps=None):
         winning_step, loosing_steps, draw_steps, possible_steps = self.check_next_step(game, possible_steps)
@@ -23,7 +23,7 @@ class WinLooseDecorator(AgentDecorator):
 
         if len(possible_steps) == 1:
             return possible_steps[0]
-        elif len(possible_steps) > 1:
+        elif len(possible_steps) > 1 and self.agent is not None:
             return self.agent.move(game, possible_steps)
         else:
             agent = RandomAgent(self.label)

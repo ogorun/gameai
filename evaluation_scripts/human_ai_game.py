@@ -95,7 +95,7 @@ game = game_cls(**game_params)
 game.debug = True
 if args['verbosity']:
     for agent in game.agents:
-        agent.debug = True
+        agent.set_debug(True)
 
 print(f'You play {human_agent.label}')
 game.play(agents)

@@ -15,3 +15,4 @@ from agents.minimax_with_alpha_beta import MinimaxWithAlphaBeta
 from agents.depth_sensitive_minimax_agent import DepthSensitiveMinimaxAgent
 from agents.mcst_agent import MCSTAgent
 from agents.minimax_agent import MinimaxAgent
+from agents.win_loose_agent import WinLooseAgent
