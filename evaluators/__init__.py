@@ -1,2 +1,3 @@
 from evaluators.tic_tac_toe_check2_combinations_evaluator import TicTacToeCheck2CombinationsEvaluator
 from evaluators.split_stacks_nim_evaluator import SplitStacksNimEvaluator
+from evaluators.material_position_chess_evaluator import MaterialPositionChessEvaluator
